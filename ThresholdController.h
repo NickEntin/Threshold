@@ -29,13 +29,17 @@
     NSMutableArray *seriesROIList;
 }
 
+// initial setup
 - (id)initWithViewer:(ViewerController *)vc;
+//- (void)generatePixelList;
 
+// interface methods
 - (IBAction)sliceSelectorChanged:(id)sender;
 - (IBAction)rangeTypeSelectorChanged:(id)sender;
 - (IBAction)slider1Changed:(id)sender;
 - (IBAction)slider2Changed:(id)sender;
 
+// draw methods
 - (void)drawOverlays;
 - (void)drawOverlayOnSlice:(int)slice;
 

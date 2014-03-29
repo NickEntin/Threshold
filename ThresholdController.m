@@ -14,6 +14,9 @@
 
 @implementation ThresholdController
 
+const int MAX_HU = 1000;
+const int MIN_HU = -1000;
+
 - (id)initWithViewer:(ViewerController *)vc {
     NSLog(@"Loading threshold plugin...");
     
@@ -26,37 +29,42 @@
 	imageView = [viewerController imageView];
     seriesROIList = [viewerController roiList];
     
+    [slider1 setMinValue:MIN_HU];
+    [slider1 setMaxValue:MAX_HU];
+    [slider2 setMinValue:MIN_HU];
+    [slider2 setMaxValue:MAX_HU];
+    
 //    [self generatePixelList];
     
     return self;
 }
 
-- (void)generatePixelList {
-    NSLog(@"-[ThresholdController generatePixelList];");
-    
-    long roiDataSize;
-    DCMPix *curPix;
-    
-    for (int z = 0 ; z < [seriesROIList count] ; z++) {
-        curPix = [[viewerController pixList] objectAtIndex:z];
-        
-        NSMutableArray *roiImageList = [seriesROIList objectAtIndex:z];
-        ROI *scanROI = [viewerController newROI:tROI];
-        NSRect scanRect = NSMakeRect(0, 0, 512, 512);
-        [scanROI setROIRect:scanRect];
-        [roiImageList addObject:scanROI];
-        [pixels addObject:[curPix getROIValue:&roiDataSize :scanROI :0L]];
-    }
-}
+//- (void)generatePixelList {
+//    NSLog(@"-[ThresholdController generatePixelList];");
+//    
+//    long roiDataSize;
+//    DCMPix *curPix;
+//    
+//    for (int z = 0 ; z < [seriesROIList count] ; z++) {
+//        curPix = [[viewerController pixList] objectAtIndex:z];
+//        
+//        NSMutableArray *roiImageList = [seriesROIList objectAtIndex:z];
+//        ROI *scanROI = [viewerController newROI:tROI];
+//        NSRect scanRect = NSMakeRect(0, 0, 512, 512);
+//        [scanROI setROIRect:scanRect];
+//        [roiImageList addObject:scanROI];
+//        [pixels addObject:[curPix getROIValue:&roiDataSize :scanROI :0L]];
+//    }
+//}
 
 - (void)drawOverlays {
     NSLog(@"-[ThresholdController drawOverlays];");
     
     if ([rangeTypeSelector selectedColumn] == 0) {
         min = [slider1 intValue];
-        max = 1000;
+        max = MAX_HU;
     } else if ([rangeTypeSelector selectedColumn] == 1) {
-        min = -1000;
+        min = MIN_HU;
         max = [slider1 intValue];
     } else {
         min = [slider1 intValue];

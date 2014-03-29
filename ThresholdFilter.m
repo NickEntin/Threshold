@@ -9,8 +9,7 @@
 
 @implementation ThresholdFilter
 
-- (void) initPlugin
-{
+- (void) initPlugin {
 }
 
 - (long) filterImage:(NSString *)menuName {
